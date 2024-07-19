@@ -1,0 +1,41 @@
+model {
+
+				for (i in 1 : N) {
+				
+			# Likelihood
+					
+
+                                        Events.65.p8[i]  ~ dpois(esimate.65.p8[i])
+					esimate.65.p8[i]<- rate.65.p8[i]*population.65.p8[i]
+					log(rate.65.p8[i]) <- alpha.65.p8 + b.65.p8[i] + h.65.p8[i]
+
+
+
+                      
+
+			# Exchangeable prior on unstructured random effects
+                   
+
+                                   h.65.p8[i] ~ dnorm(0, tau.h.65.p8)
+                                   
+               
+	                                      
+				}
+
+			# CAR prior distribution for spatial random effects: 
+			
+
+                                b.65.p8[1 : N] ~ car.normal(adj[], weights[], num[], tau.b.65.p8)
+                               
+
+				
+
+			# Other priors:
+				alpha.65.p8  ~ dflat()				
+				tau.b.65.p8  ~ dgamma(0.5, 0.0005)      
+				sigma.b.65.p8 <- sqrt(1 / tau.b.65.p8)                      
+				tau.h.65.p8  ~ dgamma(0.5, 0.0005)       
+				sigma.h.65.p8 <- sqrt(1 / tau.h.65.p8)
+
+			
+			}
